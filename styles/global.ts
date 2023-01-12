@@ -18,7 +18,7 @@ export const injectGlobal = () =>
     main: {
       maxWidth: 1000,
       margin: "0 auto",
-      paddingTop: 50,
+      paddingBlock: 50,
     },
     button: {
       padding: 0,

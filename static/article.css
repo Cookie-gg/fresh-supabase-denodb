@@ -1,0 +1,230 @@
+.article > *:not(:first-child, h1, hr, [class*=link_widget]) {
+  margin-top: calc(30px * 2 / 3);
+}
+.article h1 {
+  font-weight: 600;
+  font-size: 26px;
+}
+.article h1:not(:first-child) {
+  margin-top: 40px;
+}
+.article h2 {
+  font-weight: 600;
+  font-size: 20px;
+}
+.article h2:not(:first-child) {
+  margin-top: 50px;
+}
+.article p > img {
+  margin-right: auto;
+  margin-left: auto;
+}
+.article p > img + br {
+  display: none;
+}
+.article p > img ~ em {
+  display: block;
+  margin-top: 2px;
+  color: #888888;
+  text-align: center;
+}
+.article *:is(ol, ul) {
+  padding-left: 30px;
+}
+.article *:is(h1, h2, p, li) {
+  line-height: 1.5;
+}
+.article table {
+  border-spacing: 0;
+}
+.article table th,
+.article table td {
+  padding: 16px;
+  text-align: left;
+}
+.article table thead tr {
+  background-color: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.article table thead tr th {
+  /* min-width: 200px; */
+  color: #888888;
+  font-weight: normal;
+  border-color: rgba(255, 255, 255, 0.12);
+  border-style: solid;
+  border-width: 1px 0;
+}
+.article table thead tr th:first-of-type {
+  border-width: 1px 0 1px;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+.article table thead tr th:last-of-type {
+  border-width: 1px 1px 1px 0;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+.article table tbody td,
+.article table tbody tr {
+  border-bottom: 1px solid #333333;
+}
+.article blockquote {
+  padding: 10px 0 10px 15px;
+  position: relative;
+  color: #888888;
+}
+.article blockquote p:not(:first-of-type) {
+  margin-top: calc(16px * 1.5);
+}
+.article blockquote::before {
+  width: 4px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  background-color: #333333;
+  border-radius: 8px;
+}
+.article hr {
+  margin: 0px;
+  border-color: #333333;
+}
+.article details summary,
+.article details [class=details-content] {
+  padding: 15px;
+}
+.article details summary {
+  user-select: none;
+  color: #888888;
+  font-size: 14px;
+  background-color: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.article details [class=details-content] {
+  border-color: rgba(255, 255, 255, 0.12);
+  border-style: solid;
+  border-width: 0px 1px 1px;
+  border-radius: 0 0 4px 0;
+}
+.article details[open] summary {
+  border-radius: 4px 0 0 0;
+}
+.article [class*=msg_container] {
+  display: flex;
+  padding: 15px;
+  position: relative;
+  font-size: 14px;
+  column-gap: 4px;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 4px;
+}
+.article [class*=msg_container] [class*=msg_content_title] {
+  font-weight: 600;
+  line-height: 1.5;
+}
+.article [class*=msg_container][class*=warn] {
+  color: #f5a623;
+  border-color: #f5a623;
+}
+.article [class*=msg_container][class*=alert] {
+  color: #ee0000;
+  border-color: #ee0000;
+}
+.article [class*=msg_container][class*=info] {
+  color: #0070f3;
+  border-color: #0070f3;
+}
+.article [class*=msg_container][class=msg_container] {
+  color: white;
+  border-color: white;
+}
+.article [class*=code_block][class*=container] {
+  font-size: 0.9em;
+  font-family: var(--font-code);
+  background-color: black;
+  border: 1px solid vrgba(--accents-1);
+  border-radius: 8px;
+}
+.article [class*=code_block][class*=container] > pre {
+  padding: vcalc(22.5px);
+  overflow-x: scroll;
+  position: relative;
+  line-height: 1.5;
+}
+.article [class*=code_block][class*=container] code span[class*=keyword], .article [class*=code_block][class*=container] code span[class*=builtin], .article [class*=code_block][class*=container] code span[class*=property], .article [class*=code_block][class*=container] code span[class*=operator][class*=arrow], .article [class*=code_block][class*=container] code span[class*=operator][class*=blue] {
+  color: #66d9ef;
+  font-style: italic;
+}
+.article [class*=code_block][class*=container] code span[class*=class-name], .article [class*=code_block][class*=container] code span[class*=selector], .article [class*=code_block][class*=container] code span[class*=function], .article [class*=code_block][class*=container] code span[class*=function-variable] {
+  color: #a6e22e;
+}
+.article [class*=code_block][class*=container] code span[class*=atrule] > [class*=rule], .article [class*=code_block][class*=container] code span[class*=tag], .article [class*=code_block][class*=container] code span[class*=operator], .article [class*=code_block][class*=container] code span[class*=keyword][class*=control-flow] {
+  color: #f92672;
+}
+.article [class*=code_block][class*=container] code span[class*=punctuation] {
+  color: #ffd700;
+}
+.article [class*=code_block][class*=container] code span[class*=tag] > [class*=punctuation] {
+  color: #f8f8f2;
+}
+.article [class*=code_block][class*=container] code span[class*=parameter] {
+  color: #fd971f;
+  font-style: italic;
+}
+.article [class*=code_block][class*=container] code span[class*=string] {
+  color: #e6db74;
+}
+.article [class*=code_block][class*=container] code span[class*=number], .article [class*=code_block][class*=container] code span[class*=boolean] {
+  color: #ae81ff;
+}
+.article [class*=code_block][class*=container] code span[class*=pink] {
+  color: #dd6dce;
+}
+.article [class*=code_block][class*=container] code span[class*=blue] {
+  color: #66d9ef;
+}
+.article [class*=code_block][class*=container] code span[class*=operator][class*=white], .article [class*=code_block][class*=container] code span[class*=punctuation][class*=white] {
+  color: #f8f8f2;
+}
+.article [class*=code_block][class*=container] code span[class*=keyword][class*=red] {
+  color: #f92672;
+  font-style: normal;
+}
+.article [class*=code_block][class*=container] code span[class*=comment] {
+  color: rgba(248, 248, 242, 0.5);
+}
+.article [class*=code_block][class*=container] code[class*=diff] {
+  position: relative;
+  z-index: 0;
+}
+.article [class*=code_block][class*=container] code[class*=diff] [class*=coord] {
+  color: #66d9ef;
+}
+.article [class*=code_block][class*=container] code[class*=diff] [class*=inserted-sign] {
+  display: block;
+  background-color: #3e4e21;
+}
+.article [class*=code_block][class*=container] code[class*=diff] [class*=inserted-sign] span[class*=inserted] {
+  color: #a4ff86;
+}
+.article [class*=code_block][class*=container] code[class*=diff] [class*=deleted-sign] {
+  display: block;
+  background-color: #64273d;
+}
+.article [class*=code_block][class*=container] code[class*=diff] [class*=deleted-sign] span[class*=inserted] {
+  color: #ff7d7d;
+}
+.article [class*=code_block][class*=container][class*=filename_container] > span[class=code_block_filename] {
+  display: inline-block;
+  padding: 10px;
+  color: #888888;
+  background-color: vrgb(--accents-1);
+  border-bottom-right-radius: 8px;
+}
+.article [class*=code_block][class*=container][class*=filename_container] > pre {
+  padding: 16px vcalc(22.5px);
+}

@@ -5,6 +5,7 @@ import { css } from "~/libs/emotion.ts";
 import { colors } from "~/styles/variables.ts";
 import { marked } from "marked";
 import sanitize from "sanitize-html";
+import { Head } from "$fresh/runtime.ts";
 
 interface ArticleType {
   id: string;
@@ -28,6 +29,9 @@ export const handler: Handlers = {
 export default function Post({ data }: PageProps<ArticleType>) {
   return (
     <>
+      <Head>
+        <link rel="stylesheet" href="/article.css" />
+      </Head>
       <a
         href="/"
         class={css({
@@ -75,11 +79,11 @@ export default function Post({ data }: PageProps<ArticleType>) {
           )}
         </div>
         <div
-          class={css({
+          class={`article ${css({
             marginTop: 40,
             paddingLeft: 50,
             paddingRight: 50,
-          })}
+          })}`}
           dangerouslySetInnerHTML={{ __html: data.content }}
         />
       </div>
