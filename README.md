@@ -1,5 +1,9 @@
 # fresh project
 
+Trying to make a blog system with Fresh, Supabase and Denodb.
+
+> ref: https://zenn.dev/azukiazusa/articles/fresh-tutorial
+
 ### Usage
 
 Create env file:
