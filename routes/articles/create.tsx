@@ -139,12 +139,13 @@ const Create = ({ data }: PageProps<Data | undefined>) => {
               columnGap: 20,
             })}
           >
-            <button
-              type="button"
+            <a
+              href="/"
               class={css({
                 borderRadius: 4,
                 paddingInline: 12,
                 paddingBlock: 8,
+                display: "block",
                 fontSize: 16,
                 cursor: "pointer",
                 transition: "border-color 0.3s",
@@ -153,13 +154,14 @@ const Create = ({ data }: PageProps<Data | undefined>) => {
                 backgroundColor: colors.background,
                 borderColor: colors.acceents[4],
                 color: colors.foreground,
+                textDecoration: "none",
                 ":hover": {
                   borderColor: colors.foreground,
                 },
               })}
             >
-              Preview
-            </button>
+              Back
+            </a>
             <button
               type="submit"
               class={css({
@@ -169,27 +171,17 @@ const Create = ({ data }: PageProps<Data | undefined>) => {
                 paddingBlock: 8,
                 fontSize: 16,
                 cursor: "pointer",
-                transition: "background-color 0.3s, border-color 0.3s",
+                transition: "all 0.3s",
                 boxSizing: "border-box",
                 border: `1px solid transparent`,
                 ":hover": {
                   backgroundColor: colors.background,
                   borderColor: colors.foreground,
-                  a: {
-                    color: colors.foreground,
-                  },
+                  color: colors.background,
                 },
               })}
             >
-              <a
-                class={css({
-                  textDecoration: "none",
-                  color: colors.background,
-                  transition: "color 0.3s",
-                })}
-              >
-                Add new
-              </a>
+              Add new
             </button>
           </div>
         </form>
