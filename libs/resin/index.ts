@@ -3,12 +3,20 @@ import unitless from "@emotion/unitless";
 import { camelToKebab } from "~/utils/string/index.ts";
 import { tags, validateTag } from "~/libs/resin/tags.ts";
 import { createElement, cloneElement, JSX, VNode } from "preact";
-import { CSSInterpolation, CSSObject } from "~/libs/resin/types/index.ts";
+import {
+  CreateStyled,
+  CSSInterpolation,
+  CSSObject,
+  StyledProps,
+  Template,
+} from "~/libs/resin/types/index.ts";
+
+const PARENT_SELECTOR_REGEXP = /^&\s*\>/;
 
 const createNestedSelector = (selector: string) => {
   if (selector.startsWith(":")) return `&${camelToKebab(selector)}`;
-  if (selector.match(/^&\s*\>/))
-    `> ${camelToKebab(selector.replace(/^&\s*\>/, ""))}`;
+  if (selector.match(PARENT_SELECTOR_REGEXP))
+    `> ${camelToKebab(selector.replace(PARENT_SELECTOR_REGEXP, ""))}`;
   return camelToKebab(selector);
 };
 
@@ -59,49 +67,13 @@ const getCssStrTemplate = (template: CSSInterpolation): string => {
 export const css = (template: CSSInterpolation) =>
   resin`${getCssStrTemplate(template)}`;
 
-type Template<T> = CSSInterpolation | ((props: T) => CSSInterpolation);
-
-export type StyledTags = {
-  [K in keyof JSX.IntrinsicElements]: <T>(
-    template: Template<T>
-  ) => (
-    props: JSX.IntrinsicElements[K] & InlineCss & T
-  ) => VNode<JSX.IntrinsicElements[K] & InlineCss & T>;
-};
-
-export interface BaseCreateStyled {
-  (tag: keyof JSX.IntrinsicElements): <T>(
-    template: Template<T>
-  ) => (
-    props: JSX.IntrinsicElements[typeof tag] & InlineCss & T
-  ) => VNode<JSX.IntrinsicElements[typeof tag] & InlineCss & T>;
-
-  <Props extends { class?: string }>(
-    component: (props: Props) => VNode<Props>
-  ): <T>(
-    template: Template<T>
-  ) => (props: Props & InlineCss & T) => VNode<Props & InlineCss & T>;
-}
-
-export interface CreateStyled extends BaseCreateStyled, StyledTags {}
-
-interface InlineCss {
-  css?: CSSInterpolation;
-}
-
-export type InferProps<PropsType> = PropsType extends (
-  props: infer P
-) => VNode<infer P>
-  ? P
-  : never;
-
 // deno-lint-ignore no-explicit-any
 const createStyled: any = <Props extends { class?: string }>(
   arg: keyof JSX.IntrinsicElements | ((props: Props) => VNode<Props>)
 ) => {
   if (typeof arg === "function") {
     return <T>(template: Template<T>) => {
-      return (props: Props & InlineCss & T) => {
+      return (props: Props & StyledProps & T) => {
         const { type: originType, props: originProps } = arg(props);
         const tag = validateTag(originType);
         const tmp = typeof template === "function" ? template(props) : template;
@@ -119,7 +91,7 @@ const createStyled: any = <Props extends { class?: string }>(
     };
   }
   return <T>(template: Template<T>) =>
-    (props: JSX.IntrinsicElements[typeof arg] & InlineCss & T) => {
+    (props: JSX.IntrinsicElements[typeof arg] & StyledProps & T) => {
       const tmp = typeof template === "function" ? template(props) : template;
       return cloneElement(createElement(arg, {}), {
         ...props,

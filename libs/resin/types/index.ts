@@ -1,4 +1,5 @@
 import { PropertiesFallback, Pseudos } from "csstype";
+import { JSX, VNode } from "preact";
 
 type CSSProperties = PropertiesFallback<number | string>;
 type CSSPropertiesWithMultiValues = {
@@ -42,3 +43,39 @@ type Interpolation<Props> =
   | InterpolationPrimitive
   | ArrayInterpolation<Props>
   | FunctionInterpolation<Props>;
+
+export type Template<T> = CSSInterpolation | ((props: T) => CSSInterpolation);
+
+export interface StyledProps {
+  css?: CSSInterpolation;
+}
+
+export type StyledTags = {
+  [K in keyof JSX.IntrinsicElements]: <T>(
+    template: Template<T>
+  ) => (
+    props: JSX.IntrinsicElements[K] & StyledProps & T
+  ) => VNode<JSX.IntrinsicElements[K] & StyledProps & T>;
+};
+
+interface BaseCreateStyled {
+  (tag: keyof JSX.IntrinsicElements): <T>(
+    template: Template<T>
+  ) => (
+    props: JSX.IntrinsicElements[typeof tag] & StyledProps & T
+  ) => VNode<JSX.IntrinsicElements[typeof tag] & StyledProps & T>;
+
+  <Props extends { class?: string }>(
+    component: (props: Props) => VNode<Props>
+  ): <T>(
+    template: Template<T>
+  ) => (props: Props & StyledProps & T) => VNode<Props & StyledProps & T>;
+}
+
+export interface CreateStyled extends BaseCreateStyled, StyledTags {}
+
+export type InferProps<PropsType> = PropsType extends (
+  props: infer P
+) => VNode<infer P>
+  ? P
+  : never;
