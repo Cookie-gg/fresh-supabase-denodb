@@ -1,7 +1,10 @@
-import { css } from "~/libs/emotion.ts";
-import { Handlers, PageProps } from "$fresh/server.ts";
+import Editor from "~/islands/Editor.tsx";
+import { Article } from "~/libs/denodb.ts";
 import { colors } from "~/styles/variables.ts";
-import { Article } from "../../libs/denodb.ts";
+import { styled } from "~/libs/resin/index.ts";
+import { Flex } from "~/components/layouts/index.ts";
+import { Handlers, PageProps } from "$fresh/server.ts";
+import { Button } from "../../components/atoms/Button.tsx";
 
 interface Data {
   error: {
@@ -42,150 +45,78 @@ export const handler: Handlers<Data> = {
   },
 };
 
+const PageTitle = styled.h2({
+  fontWeight: 600,
+  fontSize: 30,
+});
+
+const CreatePostArea = styled.div({
+  marginTop: 20,
+  color: colors.foreground,
+  backgroundColor: colors.acceents[1],
+  border: `1px solid rgba(255, 255, 255, 0.12)`,
+  borderRadius: 8,
+  paddingInline: 25,
+  paddingBlock: 50,
+  transition: "border-color 0.3s",
+});
+
+const CreatePostForm = styled.form({
+  paddingInline: 80,
+  display: "grid",
+  rowGap: 30,
+});
+
+const Label = styled.label({ display: "block" });
+
+const LabelText = styled.p({
+  marginBottom: 10,
+  fontSize: 20,
+  fontWeight: 500,
+});
+
+const Input = styled.input({
+  backgroundColor: colors.background,
+  border: `1px solid ${colors.acceents[2]}`,
+  display: "block",
+  width: "100%",
+  borderRadius: 4,
+  padding: 8,
+  fontSize: 18,
+  outline: "none",
+  transition: "border-color 0.1s",
+  color: colors.foreground,
+  ":focus": {
+    borderColor: colors.foreground,
+  },
+});
+
+const ActionsWrapper = styled(Flex)({
+  justifyContent: "flex-end",
+  columnGap: 20,
+});
+
 const Create = ({ data }: PageProps<Data | undefined>) => {
   return (
     <>
-      <h2 class={css({ fontWeight: 600, fontSize: 30 })}>Create new post</h2>
-      <div
-        class={css({
-          marginTop: 20,
-          color: colors.foreground,
-          backgroundColor: colors.acceents[1],
-          border: `1px solid rgba(255, 255, 255, 0.12)`,
-          borderRadius: 8,
-          paddingInline: 25,
-          paddingBlock: 50,
-          transition: "border-color 0.3s",
-        })}
-      >
-        <form
-          class={css({
-            paddingInline: 80,
-            display: "grid",
-            rowGap: 30,
-          })}
-          method="post"
-        >
-          <label class={css({ display: "block" })}>
-            <p
-              class={css({
-                marginBottom: 10,
-                fontSize: 20,
-                fontWeight: 500,
-              })}
-            >
-              Title
-            </p>
-            <input
-              name="title"
-              type="text"
-              value={data?.title}
-              class={css({
-                backgroundColor: colors.background,
-                border: `1px solid ${colors.acceents[2]}`,
-                display: "block",
-                width: "100%",
-                borderRadius: 4,
-                padding: 8,
-                fontSize: 18,
-                outline: "none",
-                transition: "border-color 0.1s",
-                color: colors.foreground,
-                ":focus": {
-                  borderColor: colors.foreground,
-                },
-              })}
-            />
+      <PageTitle>Create new post</PageTitle>
+      <CreatePostArea>
+        <CreatePostForm method="post">
+          <Label>
+            <LabelText>Title</LabelText>
+            <Input name="title" type="text" value={data?.title} />
             {data?.error?.title && <p>必須な項目です。</p>}
-          </label>
-          <label class={css({ display: "block" })}>
-            <p
-              class={css({
-                marginBottom: 10,
-                fontSize: 20,
-                fontWeight: 500,
-              })}
-            >
-              Content
-            </p>
-            <textarea
-              name="content"
-              value={data?.content}
-              class={css({
-                backgroundColor: colors.background,
-                border: `1px solid ${colors.acceents[2]}`,
-                display: "block",
-                width: "100%",
-                borderRadius: 4,
-                padding: 8,
-                fontSize: 18,
-                outline: "none",
-                transition: "border-color 0.1s",
-                color: colors.foreground,
-                resize: "vertical",
-                ":focus": {
-                  borderColor: colors.foreground,
-                },
-                minHeight: 500,
-              })}
-            />
-            {data?.error?.content && <p>必須な項目です。</p>}
-          </label>
+          </Label>
+          <Editor value={data?.content} />
           {data?.error?.msg && <p>{data.error.msg}</p>}
-          <div
-            class={css({
-              display: "flex",
-              justifyContent: "flex-end",
-              columnGap: 20,
-            })}
-          >
-            <a
-              href="/"
-              class={css({
-                borderRadius: 4,
-                paddingInline: 12,
-                paddingBlock: 8,
-                display: "block",
-                fontSize: 16,
-                cursor: "pointer",
-                transition: "border-color 0.3s",
-                boxSizing: "border-box",
-                border: `1px solid transparent`,
-                backgroundColor: colors.background,
-                borderColor: colors.acceents[4],
-                color: colors.foreground,
-                textDecoration: "none",
-                ":hover": {
-                  borderColor: colors.foreground,
-                },
-              })}
-            >
+          <ActionsWrapper>
+            <Button bordered anchor={{ href: "/" }} type="button">
               Back
-            </a>
-            <button
-              type="submit"
-              class={css({
-                backgroundColor: colors.foreground,
-                borderRadius: 4,
-                paddingInline: 12,
-                paddingBlock: 8,
-                fontSize: 16,
-                cursor: "pointer",
-                transition: "all 0.3s",
-                boxSizing: "border-box",
-                border: `1px solid transparent`,
-                ":hover": {
-                  backgroundColor: colors.background,
-                  borderColor: colors.foreground,
-                  color: colors.background,
-                },
-              })}
-            >
-              Add new
-            </button>
-          </div>
-        </form>
-      </div>
+            </Button>
+            <Button type="submit">Add new</Button>
+          </ActionsWrapper>
+        </CreatePostForm>
+      </CreatePostArea>
     </>
   );
 };

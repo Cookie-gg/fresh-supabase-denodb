@@ -10,12 +10,11 @@
     "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.0.1",
     "dayjs": "https://esm.sh/dayjs@1.11.3",
     "dayjs/": "https://esm.sh/dayjs@1.11.3/",
-    "@emotion/css": "https://esm.sh/@emotion/css@11.10.0",
-    "@emotion/css/": "https://esm.sh/@emotion/css@11.10.0/",
-    "@emotion/server/create-instance": "https://esm.sh/@emotion/server@11.10.0/create-instance",
+    "@emotion/unitless": "https://esm.sh/@emotion/unitless@0.8.0",
     "dotenv/": "https://deno.land/x/dotenv@v3.2.0/",
     "denodb/": "https://deno.land/x/denodb@v1.2.0/",
-    "marked": "https://esm.sh/marked@4.0.17",
-    "sanitize-html": "https://esm.sh/sanitize-html@2.7.0"
+    "resin": "https://deno.land/x/resin@v0.1.5/mod.ts",
+    "csstype": "https://esm.sh/v102/csstype@3.1.1/index.d.ts",
+    "rusty_markdown": "https://deno.land/x/rusty_markdown@v0.4.1/mod.ts"
   }
 }

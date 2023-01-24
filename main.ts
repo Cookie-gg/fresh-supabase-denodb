@@ -6,10 +6,8 @@
 
 import manifest from "./fresh.gen.ts";
 import { start } from "$fresh/server.ts";
-import { emotionPlugin } from "~/libs/emotion.ts";
 
 await start(manifest, {
-  plugins: [emotionPlugin()],
   render: (ctx, render) => {
     ctx.lang = "ja";
     render();

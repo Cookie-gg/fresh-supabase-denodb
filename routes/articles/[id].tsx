@@ -1,11 +1,11 @@
-import { PageProps, Handlers } from "$fresh/server.ts";
 import dayjs from "dayjs";
 import { Article } from "~/libs/denodb.ts";
-import { css } from "~/libs/emotion.ts";
+import { html, tokens } from "rusty_markdown";
 import { colors } from "~/styles/variables.ts";
-import { marked } from "marked";
-import sanitize from "sanitize-html";
-import { Head } from "$fresh/runtime.ts";
+import { styled } from "~/libs/resin/index.ts";
+import { Flex } from "~/components/layouts/index.ts";
+import { PageProps, Handlers } from "$fresh/server.ts";
+import { postStyles } from "../../styles/post.ts";
 
 interface ArticleType {
   id: string;
@@ -19,56 +19,55 @@ export const handler: Handlers = {
   async GET(_, ctx) {
     const article = await Article.find(ctx.params.id);
 
-    const parsed = marked(String(article.content));
-    const parsedContent = sanitize(parsed);
-
-    return ctx.render({ ...article, content: parsedContent });
+    return ctx.render({
+      ...article,
+      content: html(tokens(String(article.content))),
+    });
   },
 };
+
+const BackButton = styled.a({
+  color: colors.foreground,
+});
+
+const PostArea = styled.div({
+  marginTop: 20,
+  color: colors.foreground,
+  backgroundColor: colors.acceents[1],
+  border: `1px solid rgba(255, 255, 255, 0.12)`,
+  borderRadius: 8,
+  paddingInline: 30,
+  paddingBlock: 40,
+  transition: "border-color 0.3s",
+});
+
+const PostTitle = styled.h1({
+  fontWeight: 700,
+  fontSize: 50,
+  textAlign: "center",
+});
+
+const PostMeta = styled(Flex)({
+  justifyContent: "center",
+  columnGap: 20,
+  marginTop: 20,
+  color: colors.acceents[6],
+});
+
+const PostBody = styled.div({
+  marginTop: 40,
+  paddingLeft: 50,
+  paddingRight: 50,
+  ...postStyles,
+});
 
 export default function Post({ data }: PageProps<ArticleType>) {
   return (
     <>
-      <Head>
-        <link rel="stylesheet" href="/article.css" />
-      </Head>
-      <a
-        href="/"
-        class={css({
-          color: colors.foreground,
-        })}
-      >
-        ← Back to post list
-      </a>
-      <div
-        class={css({
-          marginTop: 20,
-          color: colors.foreground,
-          backgroundColor: colors.acceents[1],
-          border: `1px solid rgba(255, 255, 255, 0.12)`,
-          borderRadius: 8,
-          padding: 25,
-          transition: "border-color 0.3s",
-        })}
-      >
-        <h1
-          class={css({
-            fontWeight: 700,
-            fontSize: 50,
-            textAlign: "center",
-          })}
-        >
-          {data.title}
-        </h1>
-        <div
-          class={css({
-            display: "flex",
-            justifyContent: "center",
-            columnGap: 20,
-            marginTop: 20,
-            color: colors.acceents[6],
-          })}
-        >
+      <BackButton href="/">← Back to post list</BackButton>
+      <PostArea>
+        <PostTitle>{data.title}</PostTitle>
+        <PostMeta>
           <time dateTime={data.created_at}>
             Created at : {dayjs(data.created_at).format("YYYY/MM/DD")}
           </time>
@@ -77,16 +76,12 @@ export default function Post({ data }: PageProps<ArticleType>) {
               Updated at {dayjs(data.updated_at).format("YYYY/MM/DD")}
             </time>
           )}
-        </div>
-        <div
-          class={`article ${css({
-            marginTop: 40,
-            paddingLeft: 50,
-            paddingRight: 50,
-          })}`}
+        </PostMeta>
+        <PostBody
+          class="article"
           dangerouslySetInnerHTML={{ __html: data.content }}
         />
-      </div>
+      </PostArea>
     </>
   );
 }
