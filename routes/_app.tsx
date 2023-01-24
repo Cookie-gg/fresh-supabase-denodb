@@ -4,6 +4,7 @@ import { Head } from "$fresh/runtime.ts";
 import { globalCss } from "~/styles/global.ts";
 import { AppProps } from "$fresh/src/server/types.ts";
 import { ResinCssEmitter, ResinCssGlobalStyle } from "resin";
+import { Footer } from "../components/organisms/Footer.tsx";
 
 const App = ({ Component }: AppProps) => (
   <html>
@@ -20,6 +21,7 @@ const App = ({ Component }: AppProps) => (
       <main>
         <Component />
       </main>
+      <Footer />
     </body>
   </html>
 );

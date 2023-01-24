@@ -26,6 +26,7 @@ export const globalCss = css({
     margin: "0 auto",
     paddingBlock: 50,
     paddingInline: 30,
+    minHeight: "100vh",
   },
   button: {
     padding: 0,
