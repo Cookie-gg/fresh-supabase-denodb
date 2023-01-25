@@ -23,8 +23,3 @@ deno task start
 ```
 
 This will watch the project directory and restart as necessary.
-
-### ToDo
-
-- support emotion in client side<br />
-  this problem causes island components are broken. 
